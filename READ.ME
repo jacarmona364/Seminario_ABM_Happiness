@@ -1,0 +1,37 @@
+Para poder ejecutar el programa deberemos instalar primero las siguientes librerías:
+
+pip install pandas numpy
+
+pip install matplotlib
+
+pip install openpyxl
+
+pip install scikit-learn
+
+pip install mesa
+
+pip install tornado
+
+pip install pygame
+
+
+Posteriormente, para cada carpeta de cada red social deberemos ejecutar los archivos en el siguiente orden,
+pongamos de ejemplo FaceBook:
+
+python3 .\FaceBook\filtra_datos_FB.py
+
+python3 .\FaceBook\model_FB.py
+
+python3 .\FaceBook\calibrado_FB.py
+
+python3 .\FaceBook\server_FB.py
+
+
+Para modificar las rutas de los archivos que se pasan como parámetros, ya sea de entrada o de salida,
+es necesario entender el funcionamiento que viene especificado en la línea superior en cada archivo.
+
+Este programa es capaz de filtar cualquier excel siempre y cuando las cabeceras de los datos que buscamos
+se correspondan con las del archivo, las cuales se pueden modificar en los archivos de filtrado.
+
+El número de agentes está puesto por defecto en 3000 y en cada simulación se especifica el número total de muestras
+de nuestro archivo excel de entrada, ambas modificables en función del volumen de datos.
