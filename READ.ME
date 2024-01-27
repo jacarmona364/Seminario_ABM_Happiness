@@ -15,23 +15,76 @@ pip install tornado
 pip install pygame
 
 
-2) Posteriormente, para cada carpeta de cada red social deberemos ejecutar los archivos en el siguiente orden,
-pongamos de ejemplo FaceBook:
+2) La estructura es sencilla, hay una carpeta para cada red social y en cada una de esas carpetas encontramos 
+   4 archivos Python: 
 
-python3 .\FaceBook\filtra_datos_FB.py
+Filtra_datos: se encarga de extraer las columnas requeridas del excel de datos bruto
+    - Las columnas se pueden cambiar en la línea 7, modificando los nombres de las preguntas (P60A).
+      (No recomendable pues el orden en el que se almacenan las columnas en el excel varía en función del nombre de la pregunta)
+    - En la línea 16 se hace un replace de los valores de felicidad para que estén entre 0 y 5.
+    - Se genera un archivo excel 3145_data_clean, con las columnas solicitadas.
 
-python3 .\FaceBook\model_FB.py
+Model: genera unos niveles de felicidad virtuales haciendo uso de la función Cobb-Douglas
+    - Durante la ejecución nos pedirá por consola un valor entre 0 y 1, este valor es el coeficiente que se corresponde al nivel de importancia de la renta.
+      Su complementario será el coeficiente que se asigna a las horas en redes sociales.
+    - En la línea 7, el 8 se corresponde al número de horas dedicadas a las redes sociales, se puede modificar 
+      para obtener diferentes simulaciones suponiendo otro número de horas.
+    - No recomendable modifiacar los demás valores, pues el 5 que hay multiplicando y el 11 que aparece dividiendo son los encargados
+      de mantener nuestro rango de valores entre 0 y 5.
+    - Se genera un archivo excel model, donde tendremos almacenados en la primera columna los valores de felicidad modelizados.
 
-python3 .\FaceBook\calibrado_FB.py
+Calibrado: realiza una comparación entre los valores extraídos de la encuesta y los virtuales, generados a partir del modelo.
+    - Se devuelve el coeficiente de correlación por consola.
 
-python3 .\FaceBook\server_FB.py
+Server: representa un gráfico de puntos donde aparecen los agentes con un color basado en su nivel de felicidad, aplicando el efecto red en cada paso.
+    - Los colores van de menos feliz a más feliz: rojo, naranja, amarillo, verde, azul celeste, azul oscuro.
+    - En la línea 86 aparece el número de agentes que participan de nuestro modelo, no es recomendable modificarlo salvo
+      que se trabaje con un número distinto de muestras, pues de superarse ese valor se generan puntos aleatorios y 
+      de quedarse corto se estarían perdiendo agentes.
+    - Al ejecutar se abre una pestaña en el navegador con el efecto red.
 
+
+3) Para ejecutar los archivos Python de cada carpeta siga los siguientes comandos por terminal, situado en la carpeta Seminario_ABM_Happiness:
+
+FaceBook:
+
+python.exe .\FaceBook\filtra_datos_FB.py
+
+python.exe .\FaceBook\model_FB.py
+
+python.exe .\FaceBook\calibrado_FB.py
+
+python.exe .\FaceBook\server_FB.py
+
+
+Instagram:
+
+python.exe .\Instagram\filtra_datos_IG.py
+
+python.exe .\Instagram\model_IG.py
+
+python.exe .\Instagram\calibrado_IG.py
+
+python.exe .\Instagram\server_IG.py
+
+
+Twitter (X):
+
+python.exe .\X\filtra_datos_X.py
+
+python.exe .\X\model_X.py
+
+python.exe .\X\calibrado_X.py
+
+python.exe .\X\server_X.py
 
 Para modificar las rutas de los archivos que se pasan como parámetros, ya sea de entrada o de salida,
 es necesario entender el funcionamiento que viene especificado en la línea superior en cada archivo.
+No es recomendable a no ser que se tenga una idea clara de la estructura de archivos del proyecto y a qué archivo
+es necesario referenciar en cada momento.
 
 Este programa es capaz de filtar cualquier excel siempre y cuando las cabeceras de los datos que buscamos
 se correspondan con las del archivo, las cuales se pueden modificar en los archivos de filtrado.
 
-El número de agentes está puesto por defecto en 3000 y en cada simulación se especifica el número total de muestras
-de nuestro archivo excel de entrada, ambas modificables en función del volumen de datos.
+El número de agentes está puesto por defecto con un máximo de 3000, por el tamaño de la cuadrícula
+y en cada simulación se especifica el número total de muestras (siempre menor a 3000), como viene antes descrito.
